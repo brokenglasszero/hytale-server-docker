@@ -1,0 +1,51 @@
+# Persistent data directory (don't commit server data)
+data/
+
+# Server files (downloaded during build)
+Server/
+Assets.zip
+game.zip
+hytale-downloader/
+hytale-downloader.zip
+
+# World data
+universe/
+
+# Config files (user-specific)
+config.json
+permissions.json
+whitelist.json
+bans.json
+
+# Mods directory
+mods/
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+backup-*.tar.gz
+
+# Temporary files
+*.tmp

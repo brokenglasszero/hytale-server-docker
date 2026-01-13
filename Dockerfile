@@ -15,7 +15,7 @@ RUN apt-get update && \
 WORKDIR /hytale
 
 # Download Hytale Downloader CLI
-RUN wget -O hytale-downloader.zip https://launcher.hytale.com/hytale-downloader/hytale-downloader.zip && \
+RUN wget -O hytale-downloader.zip https://downloader.hytale.com/hytale-downloader.zip && \
     unzip hytale-downloader.zip -d downloader && \
     chmod +x downloader/hytale-downloader && \
     rm hytale-downloader.zip
