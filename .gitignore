@@ -49,3 +49,4 @@ backup-*.tar.gz
 
 # Temporary files
 *.tmp
+tmpclaude-*
