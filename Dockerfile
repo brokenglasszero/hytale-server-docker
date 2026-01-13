@@ -17,13 +17,13 @@ WORKDIR /hytale
 # Download Hytale Downloader CLI
 RUN wget -O hytale-downloader.zip https://downloader.hytale.com/hytale-downloader.zip && \
     unzip hytale-downloader.zip -d downloader && \
-    chmod +x downloader/hytale-downloader && \
+    chmod +x downloader/hytale-downloader-linux-amd64 && \
     rm hytale-downloader.zip
 
 # Download Hytale server files
 # This will prompt for authentication during build
 RUN cd downloader && \
-    ./hytale-downloader -download-path /hytale/game.zip && \
+    ./hytale-downloader-linux-amd64 -download-path /hytale/game.zip && \
     cd /hytale && \
     unzip game.zip && \
     rm game.zip && \
