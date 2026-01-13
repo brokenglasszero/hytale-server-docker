@@ -143,10 +143,12 @@ environment:
 
 ## Persistent Data
 
-All server data is stored in `./data/` and persists across container restarts:
+All server data is stored in a Docker named volume called `hytale-server-data` and persists across container restarts and removals.
+
+The volume contains:
 
 ```
-data/
+hytale-server-data/
 ├── universe/          # World saves and player data
 ├── mods/              # Installed server mods
 ├── logs/              # Server logs
@@ -154,7 +156,27 @@ data/
 ├── config.json        # Server configuration
 ├── permissions.json   # Permission settings
 ├── whitelist.json     # Whitelisted players
-└── bans.json          # Banned players
+├── bans.json          # Banned players
+└── HytaleServer.jar   # Server executable (preserved across restarts)
+```
+
+### Accessing Files in the Volume
+
+To access files inside the named volume:
+
+```bash
+# List files
+docker exec hytale-server ls -la /hytale/Server
+
+# View config.json
+docker exec hytale-server cat /hytale/Server/config.json
+
+# Copy file from container to host
+docker cp hytale-server:/hytale/Server/config.json ./config.json
+
+# Copy file from host to container
+docker cp ./config.json hytale-server:/hytale/Server/config.json
+docker compose restart
 ```
 
 ## Docker Hub Deployment
@@ -241,7 +263,16 @@ docker-compose up -d
 ## Installing Mods
 
 1. Download mod files (.zip or .jar) from sources like CurseForge
-2. Place them in `./data/mods/` on your host
+2. Copy them into the container:
+
+```bash
+# Copy a single mod
+docker cp your-mod.jar hytale-server:/hytale/Server/mods/
+
+# Copy multiple mods from a directory
+docker cp ./mods/. hytale-server:/hytale/Server/mods/
+```
+
 3. Restart the container:
 
 ```bash
@@ -272,8 +303,11 @@ docker-compose restart
 Hytale's default view distance (384 blocks) is high. Reduce in config:
 
 ```bash
-# Edit config after first run
-nano ./data/config.json
+# Copy config from container, edit it, then copy back
+docker cp hytale-server:/hytale/Server/config.json ./config.json
+nano ./config.json
+docker cp ./config.json hytale-server:/hytale/Server/config.json
+docker-compose restart
 ```
 
 Consider using the `Nitrado:PerformanceSaver` plugin to dynamically adjust view distance.
@@ -375,8 +409,12 @@ docker stats hytale-server
 # Update server
 docker-compose pull && docker-compose up -d
 
-# Backup world data
-tar -czf backup-$(date +%Y%m%d).tar.gz ./data/universe/
+# Backup entire server data (worlds, configs, mods)
+docker run --rm --volumes-from hytale-server -v $(pwd):/backup ubuntu tar czf /backup/hytale-backup-$(date +%Y%m%d).tar.gz -C /hytale/Server .
+
+# Or backup just the world data
+docker exec hytale-server tar czf /tmp/universe-backup.tar.gz -C /hytale/Server/universe .
+docker cp hytale-server:/tmp/universe-backup.tar.gz ./universe-backup-$(date +%Y%m%d).tar.gz
 ```
 
 ## Resources

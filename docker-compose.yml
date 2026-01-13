@@ -17,9 +17,13 @@ services:
       - HYTALE_BIND=0.0.0.0
 
     # Persistent data volumes
-    # Mount entire Server directory for persistence
+    # Use named volume to persist entire Server directory
+    # This preserves worlds, configs, mods, logs, AND the server JAR files
     volumes:
-      - ./data:/hytale/Server
+      - hytale-server-data:/hytale/Server
+
+volumes:
+  hytale-server-data:
 
     # Resource limits (adjust based on your VPS)
     deploy:
