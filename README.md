@@ -103,6 +103,16 @@ In the console, run:
 
 Follow the instructions, visit the URL, enter the code, then detach with `Ctrl+P, Ctrl+Q`.
 
+You can use the following command so no manual login in required next time.
+```
+Authentication successful! Use '/auth status' to view details.
+WARNING: Credentials stored in memory only - they will be lost on restart!
+To persist credentials, run: /auth persistence <type>
+Available types: Memory, Encrypted
+/auth persistence Encrypted
+```
+
+
 ### 4. Verify Running
 
 ```bash
