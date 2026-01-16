@@ -12,7 +12,7 @@ echo ""
 cd /hytale/Server
 
 # Build the Java command
-JAVA_CMD="java ${JAVA_OPTS} -jar HytaleServer.jar --assets ${HYTALE_ASSETS} --bind ${HYTALE_BIND}:${HYTALE_PORT}"
+JAVA_CMD="java ${JAVA_OPTS} -jar HytaleServer.jar --assets ${HYTALE_ASSETS} --accept-early-plugins --bind ${HYTALE_BIND}:${HYTALE_PORT}"
 
 # Add any additional arguments passed to the container
 if [ $# -gt 0 ]; then
